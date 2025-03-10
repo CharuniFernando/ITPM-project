@@ -1,0 +1,87 @@
+.auth_home_bk_admin {
+  width: 100%;
+  background-size: cover;
+  height: 100vh;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-image: url(./img/adminimg.jpg);
+}
+.auth_from_admin {
+  background-color: white;
+  width: 400px;
+  border-radius: 8px;
+  position: relative;
+  top: 33%;
+  left: 10%;
+  padding: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s ease forwards;
+}
+.admin_card_img {
+  width: 100%;
+  border-radius: 10px;
+}
+.homepage_admin_title {
+  text-align: center;
+}
+.admin_dash_main {
+  padding: 25px 10%;
+}
+.admin_card_container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 25px 0;
+  gap: 25px;
+}
+
+.card_admin_dash {
+  border: 2px solid #93B1A6;
+  padding: 15px;
+  width: 220px;
+  cursor: pointer;
+  text-align: center;
+}
+.admin_topic_card {
+  font-size: 20px;
+  font-weight: 500;
+}
+.card_admin_dash:hover {
+  font-weight: bold;
+  color: #000000; 
+  background-color: #3D8D7A;
+  box-shadow: 0px 2px 8px 0px #93B1A6;
+}
+.homepage_admin_title {
+  font-weight: 500;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #A3D1C6;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #03252C;
+  border-radius: 5px;
+  border: 2px solid #A3D1C6;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #2F6E5F ;
+}
+.table_img {
+  cursor: pointer;
+  border-radius: 3px;
+  width: 100px;
+}
+.ceb_tn_tbl {
+  text-align: center;
+}
