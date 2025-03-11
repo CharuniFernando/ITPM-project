@@ -21,7 +21,7 @@ function LeveLogin() {
 
     if (username === validUsername && password === validPassword) {
       alert("Login successful!");
-      // Redirect to inventory dashboard or another page
+      // Redirect to another page
       window.location.href = "/levedash";
     } else {
       alert("Invalid username or password.");
