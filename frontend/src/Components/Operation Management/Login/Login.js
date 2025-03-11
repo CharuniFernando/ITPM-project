@@ -21,7 +21,7 @@ function Login() {
 
     if (username === validUsername && password === validPassword) {
       alert("Login successful!");
-      // Redirect to inventory dashboard or another page
+      // Redirect to another page
       window.location.href = "/operations";
     } else {
       setErrorMessage("Invalid username or password.");
