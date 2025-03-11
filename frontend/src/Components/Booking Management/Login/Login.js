@@ -16,7 +16,7 @@ function Login() {
     const { username, password } = inputs;
 
     // Example hardcoded credentials
-    const validUsername = "bookingManager";
+    const validUsername = "BookingManager";
     const validPassword = "booking123";
 
     if (username === validUsername && password === validPassword) {
