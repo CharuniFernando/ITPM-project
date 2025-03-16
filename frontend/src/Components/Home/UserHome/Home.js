@@ -21,8 +21,7 @@ function Home() {
           <p className="main_topic_home">We provide</p>
           <p className="sub_topic_home">security service</p>
           <p className="sub_para_home">
-            Suspendisse tincidunt ornare sem, at venenatis lorem tempor veled
-            sit amet nisi non dignissim
+            We specialize in provding professional security services to ensure safety and peace of mind for businesses, organizations, and individuals.
           </p>
           <button className="home_btn">read more</button>
         </div>
