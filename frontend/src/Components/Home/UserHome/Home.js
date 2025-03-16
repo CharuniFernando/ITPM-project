@@ -29,9 +29,9 @@ function Home() {
       <div className="home_container">
         <div>
           <h1 className="welcometopic">
-            <span className="man_topic_home">Welcome SSMS</span>
+            <span className="man_topic_home">Welcome SGS</span>
             <br />
-            Safety Security Service
+            Safety Security Services
           </h1>
           <br />
           <p className="pera_welcome">
