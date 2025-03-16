@@ -35,17 +35,15 @@ function Home() {
           </h1>
           <br />
           <p className="pera_welcome">
-            Maecenas nec ligula id orci varius congue. Cras lorem sapien,
-            sodales ut egestas et, vestibulum vel quam. Sed ut lacus auctor
-            scelerisque nisiane eu, semper nisl. Aenean et interdum ipsum.
+            At Secure Guard, we are committed to delivering top-tier security services
+            that ensures safety and protection for businesses, organizations, and individuals.
           </p>
           <br />
           <p className="pera_welcome">
-            Fusce iaculis lorem id metus iaculis varius. Etiam id lectus a nisl
-            finibus ultrices sit amet ut augue. Nullam at metus accumsan pretium
-            sodales eu at sem. In ablandit risus, eget pulvinar odio. Aliquam
-            pharetra dolor a pellentesque commodo. Etiam purus arcu, suscipit at
-            pulvina ultrices at diam nam eget felis ut ipsum pharetra fringilla.
+            Our highly trained security officers are equipped with the latest technology 
+            and expertise to safeguard your premises, manage risks, and provide a secure environment.
+            Whether you need on-site security, emergency response, or surveillance monitoring, 
+            we offer tailored solution to meet your security needs.
           </p>
         </div>
       </div>
