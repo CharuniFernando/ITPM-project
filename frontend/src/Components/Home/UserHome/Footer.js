@@ -6,16 +6,16 @@ function Footer() {
       <div className="footer_row">
         <div className="footer_row_card">
           <p className="footer_topic">Contact Info</p>
-          <p className="conten_footer">Street 489,52 tempor</p>
+          <p className="conten_footer">SecureGuard</p>
           <p className="conten_footer">
-            Donec ultricies mattis nulla, suscipit
+            No 489/5, Galle Road, Colombo
           </p>
-          <p className="conten_footer">risus tristique utmattis nulla.</p>
+          <p className="conten_footer">24/7 Available</p>
 
           <br />
-          <p className="conten_footer">Phone: +1 234 567 8901</p>
-          <p className="conten_footer">Email: ssms@infro.com</p>
-          <p className="conten_footer">Fax: +1 234 567 8902</p>
+          <p className="conten_footer">Phone: +71 567 8901</p>
+          <p className="conten_footer">Email: sgs@info.com</p>
+          <p className="conten_footer">Fax: +77 567 8902</p>
         </div>
         <div className="footer_row_card">
           <p className="footer_topic">Our Services</p>
