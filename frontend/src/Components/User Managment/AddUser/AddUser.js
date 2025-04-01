@@ -30,7 +30,7 @@ function AddEmploye() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Email validation for Gmail
+    // Email validation for Gmail using @ sign
     const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     if (!emailRegex.test(inputs.gmail)) {
       window.alert("Please enter a valid Gmail address ending with @gmail.com");
