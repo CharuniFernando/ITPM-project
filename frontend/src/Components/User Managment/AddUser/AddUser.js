@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
@@ -14,9 +14,21 @@ function AddEmploye() {
     emptype: "",
   });
   const [profilePhoto, setProfilePhoto] = useState(null);
+  const [emailError, setEmailError] = useState(""); // Gmail validation error message state
+
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // Gmail validation regex
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Gmail validation on change
+    if (name === "gmail") {
+      if (!emailRegex.test(value)) {
+        setEmailError("Please enter a valid Gmail address (e.g., example@gmail.com)");
+      } else {
+        setEmailError(""); // Clear error if valid
+      }
+    }
 
     setInputs((prevInputs) => ({
       ...prevInputs,
@@ -30,11 +42,9 @@ function AddEmploye() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Email validation for Gmail using @ sign
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     if (!emailRegex.test(inputs.gmail)) {
-      window.alert("Please enter a valid Gmail address ending with @gmail.com");
-      return; // Stop form submission if invalid
+      setEmailError("Please enter a valid Gmail address ending with @gmail.com");
+      return;
     }
     try {
       const response = await sendRequest();
@@ -66,6 +76,7 @@ function AddEmploye() {
       },
     });
   };
+
   const handleLoginNavigate = () => {
     navigate("/");
   };
@@ -73,7 +84,7 @@ function AddEmploye() {
   return (
     <div className="auth_home_bk">
       <div className="auth_from_add_regi">
-        <h1 className="auth_topic">Create Accout</h1>
+        <h1 className="auth_topic">Create Account</h1>
         <div className="item_full_box">
           <form onSubmit={handleSubmit}>
             <label className="form_lable">Type</label>
@@ -85,13 +96,12 @@ function AddEmploye() {
               onChange={handleChange}
               name="type"
             >
-              <option value="">Select Type</option> {/* Optional placeholder */}
+              <option value="">Select Type</option>
               <option value="Client">Client</option>
               <option value="Employee">Employee</option>
             </select>
 
             <br></br>
-            {/* Conditionally render profile photo input based on selected type */}
             {inputs.type === "Client" && (
               <>
                 <label className="form_lable">Profile Photo</label>
@@ -116,19 +126,15 @@ function AddEmploye() {
                   name="emptype"
                 >
                   <option value="">Select Type</option>
-                  {/* Optional placeholder */}
                   <option value="Security Officer">Security Officer</option>
-                  <option value="Lady Security Officer">
-                    Lady Security Officer
-                  </option>
+                  <option value="Lady Security Officer">Lady Security Officer</option>
                   <option value="Body Guard">Body Guard</option>
-                  <option value="Lady Security Officer">VVIP Officer</option>
+                  <option value="VVIP Officer">VVIP Officer</option>
                 </select>
-
                 <br></br>
               </>
             )}
-            <label className="form_lable">name</label>
+            <label className="form_lable">Name</label>
             <br></br>
             <input
               className="form_input"
@@ -144,7 +150,7 @@ function AddEmploye() {
               name="name"
             />
             <br></br>
-            <label className="form_lable">gmail</label>
+            <label className="form_lable">Gmail</label>
             <br></br>
             <input
               className="form_input"
@@ -154,6 +160,7 @@ function AddEmploye() {
               name="gmail"
               required
             />
+            {emailError && <p style={{ color: "red", fontSize: "12px" }}>{emailError}</p>}
             <br></br>
             <label className="form_lable">Password</label>
             <br></br>
@@ -166,7 +173,7 @@ function AddEmploye() {
               className="form_input"
             />
             <br></br>
-            <label className="form_lable">phone</label>
+            <label className="form_lable">Phone</label>
             <br></br>
             <input
               type="text"
@@ -186,7 +193,7 @@ function AddEmploye() {
               required
             />
             <br></br>
-            <label className="form_lable">address</label>
+            <label className="form_lable">Address</label>
             <br></br>
             <input
               className="form_input"
@@ -203,7 +210,7 @@ function AddEmploye() {
           </form>
 
           <p className="auth_pera_two">
-            you have an account
+            You have an account?{" "}
             <span className="auth_pera_two_sub" onClick={handleLoginNavigate}>
               Sign In
             </span>
