@@ -63,7 +63,7 @@ app.post("/send-email", async (req, res) => {
       text: `Your verification code is ${code}`,
     };
 
-    // Send email
+    // Send the email
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         return res.status(500).send({ message: "Error sending email" });
