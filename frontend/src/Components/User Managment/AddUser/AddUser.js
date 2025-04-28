@@ -14,19 +14,19 @@ function AddEmploye() {
     emptype: "",
   });
   const [profilePhoto, setProfilePhoto] = useState(null);
-  const [emailError, setEmailError] = useState(""); // Gmail validation error message state
+  const [emailError, setEmailError] = useState("");
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // Gmail validation regex
+  // Updated regex to allow both @gmail.com and @my.sliit.lk
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|my\.sliit\.lk)$/;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Gmail validation on change
     if (name === "gmail") {
       if (!emailRegex.test(value)) {
-        setEmailError("Please enter a valid Gmail address (e.g., example@gmail.com)");
+        setEmailError("Please enter a valid email address (e.g., example@gmail.com or example@my.sliit.lk)");
       } else {
-        setEmailError(""); // Clear error if valid
+        setEmailError("");
       }
     }
 
@@ -43,7 +43,7 @@ function AddEmploye() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!emailRegex.test(inputs.gmail)) {
-      setEmailError("Please enter a valid Gmail address ending with @gmail.com");
+      setEmailError("Please enter a valid email address ending with @gmail.com or @my.sliit.lk");
       return;
     }
     try {
@@ -88,7 +88,7 @@ function AddEmploye() {
         <div className="item_full_box">
           <form onSubmit={handleSubmit}>
             <label className="form_lable">Type</label>
-            <br></br>
+            <br />
             <select
               className="form_input"
               required
@@ -100,25 +100,24 @@ function AddEmploye() {
               <option value="Client">Client</option>
               <option value="Employee">Employee</option>
             </select>
-
-            <br></br>
+            <br />
             {inputs.type === "Client" && (
               <>
                 <label className="form_lable">Profile Photo</label>
-                <br></br>
+                <br />
                 <input
                   type="file"
                   className="form_input"
                   accept="image/*"
                   onChange={handleFileChange}
                 />
-                <br></br>
+                <br />
               </>
             )}
             {inputs.type === "Employee" && (
               <>
                 <label className="form_lable">Select Your Employee Type</label>
-                <br></br>
+                <br />
                 <select
                   className="form_input"
                   value={inputs.emptype}
@@ -131,11 +130,11 @@ function AddEmploye() {
                   <option value="Body Guard">Body Guard</option>
                   <option value="VVIP Officer">VVIP Officer</option>
                 </select>
-                <br></br>
+                <br />
               </>
             )}
             <label className="form_lable">Name</label>
-            <br></br>
+            <br />
             <input
               className="form_input"
               type="text"
@@ -149,9 +148,9 @@ function AddEmploye() {
               }}
               name="name"
             />
-            <br></br>
+            <br />
             <label className="form_lable">Gmail</label>
-            <br></br>
+            <br />
             <input
               className="form_input"
               type="email"
@@ -161,9 +160,9 @@ function AddEmploye() {
               required
             />
             {emailError && <p style={{ color: "red", fontSize: "12px" }}>{emailError}</p>}
-            <br></br>
+            <br />
             <label className="form_lable">Password</label>
-            <br></br>
+            <br />
             <input
               type="password"
               name="password"
@@ -172,9 +171,9 @@ function AddEmploye() {
               required
               className="form_input"
             />
-            <br></br>
+            <br />
             <label className="form_lable">Phone</label>
-            <br></br>
+            <br />
             <input
               type="text"
               id="phone"
@@ -192,9 +191,9 @@ function AddEmploye() {
               title="Please enter exactly 10 digits."
               required
             />
-            <br></br>
+            <br />
             <label className="form_lable">Address</label>
-            <br></br>
+            <br />
             <input
               className="form_input"
               type="text"
@@ -203,7 +202,7 @@ function AddEmploye() {
               name="address"
               required
             />
-            <br></br>
+            <br />
             <button type="submit" className="auth_btn">
               Create Account
             </button>
