@@ -3,7 +3,7 @@ import {
   createPayment,
   getUserPayments,
   getPaymentById,
-} from './Controllers/paymentController.js';
+} from './Controllers/PaymentController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
