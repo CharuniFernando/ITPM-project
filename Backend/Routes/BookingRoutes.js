@@ -1,21 +1,23 @@
-import express from 'express';
-import {
-  createBooking,
-  getAllBookings,
-  getBookingById,
-  updateBooking,
-  deleteBooking,
-  searchBookings,
-} from './Controllers/BookingController.js';
-import { protect } from '../middleware/authMiddleware.js';
-
+const express = require("express");
 const router = express.Router();
+const bookingController = require("../Controllers/BookingController");
 
-router.post('/', protect, createBooking);
-router.get('/', protect, getAllBookings);
-router.get('/search', protect, searchBookings);
-router.get('/:id', protect, getBookingById);
-router.put('/:id', protect, updateBooking);
-router.delete('/:id', protect, deleteBooking);
+// Create
+router.post("/create", bookingController.createBooking);
 
-export default router;
+// Admin - get all
+router.get("/all", bookingController.getAllBookings);
+
+// Client - get bookings by employeeId
+router.get("/client/:employeeId", bookingController.getBookingsByEmployee);
+
+// Update
+router.put("/update/:id", bookingController.updateBooking);
+
+// Delete
+router.delete("/delete/:id", bookingController.deleteBooking);
+
+// Search by bookingId
+router.get("/search/:bookingId", bookingController.searchBooking);
+
+module.exports = router;

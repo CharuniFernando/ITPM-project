@@ -5,8 +5,10 @@ const ClientRoute = require("./Routes/ClientRoutes.js");
 const operationRoutes = require("./Routes/OperationRoute.js");
 const LeaveRoutes = require("./Routes/LeaveRoute.js");
 const Employee = require("./Model/UserModel.js");
+const BookingRoutes = require("./Routes/BookingRoutes.js");
 const nodemailer = require("nodemailer");
 const connectDB = require("./Config/db.js");
+const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const app = express();
@@ -23,12 +25,15 @@ app.use(
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
+
 
 //Routes
 app.use("/employee", EmployeeRoutes);
 app.use("/inquiries", ClientRoute);
 app.use("/operations", operationRoutes);
 app.use("/leave", LeaveRoutes);
+app.use("/api/bookings", BookingRoutes); 
 app.use('/uploads', express.static('uploads'));
 const PORT = process.env.PORT || 8080;
 

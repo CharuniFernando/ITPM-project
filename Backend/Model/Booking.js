@@ -1,39 +1,60 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const bookingSchema = new mongoose.Schema({
-  bookingId: {
+const BookingSchema = new Schema({
+  bookingID: {
     type: String,
     unique: true,
-    default: () => 'BK' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+    required: true,
   },
-  userId: {
+  employeeId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "Employee",
     required: true,
   },
-  securityType: {
+  gmail: {
     type: String,
-    enum: ['Security Guard', 'Female Security Guard', 'VVIP', 'Bodyguard'],
     required: true,
   },
-  bookingDate: {
-    type: Date,
+  guardType: {
+    type: String,
+    enum: ["Security Guard", "Female Security Guard", "VVIP", "Bodyguard"],
     required: true,
   },
-  durationHours: {
+  noOfGuard: {
+    type: String,
+    required: true,
+  },
+  startDate: {
+    type: String,
+    required: true,
+  },
+  endDate: {
+    type: String,
+    required: true,
+  },
+  startTime: {
+    type: String,
+    required: true,
+  },
+  endTime: {
+    type: String,
+    required: true,
+  },
+  totalHours: {
     type: Number,
-    required: true,
   },
   amount: {
     type: Number,
-    required: true,
   },
-  paymentStatus: {
-    type: String,
-    enum: ['Pending', 'Paid'],
-    default: 'Pending',
-  },
-}, { timestamps: true });
+});
 
-const Booking = mongoose.model('Booking', bookingSchema);
-export default Booking;
+// Auto-generate unique bookingID
+BookingSchema.pre("validate", function (next) {
+  if (!this.bookingID) {
+    this.bookingID = `BOOK-${Date.now()}`;
+  }
+  next();
+});
+
+module.exports = mongoose.model("Booking", BookingSchema);
