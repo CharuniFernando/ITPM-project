@@ -1,0 +1,185 @@
+.booking-container {
+    padding: 50px;
+    background-color: #318d94;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+  
+  .admin_topic {
+    text-align: center;
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .admin_topic span {
+    color: #c9d8d7;
+  }
+  
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 20px 0;
+    gap: 10px;
+  }
+
+  .search_section {
+    position: absolute;
+    text-align: center;
+    margin-bottom: 20px;
+    top: 150px;
+    left: 40px;
+  }
+  
+  .search_section input {
+    padding: 8px 12px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .search_section button {
+    padding: 8px 16px;
+    margin-left: 10px;
+    background-color: #1d594f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .booking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 80px;
+  }
+  
+  .booking-table th,
+  .booking-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .booking-table th {
+    background-color: #0e4239;
+    color: white;
+  }
+  
+  .booking-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .delete-btn,
+  .update-btn {
+    padding: 5px 10px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .delete-btn {
+    background-color: #781b19;
+  }
+  
+  .update-btn {
+    background-color: #19561b;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c62828;
+  }
+  
+  .update-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  .generate-report,
+  .add-booking {
+    margin-left: 10px;
+  }
+  
+  .pdf-btn,
+  .add-booking-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .pdf-btn:hover,
+  .add-booking-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .logout-btn-main {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999; /* Ensure it stays above other elements */
+  }
+  
+  .logout-btn-sub {
+    background: #013932;
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional for better visibility */
+  }
+  
+  .logout-btn {
+    font-size: 24px;
+    color: white;
+  }
+  
+  
+  
+  
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
+  
+  .right-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .search-bar input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 250px;
+  }
+  
+  .search-bar button,
+  .pdf-btn,
+  .add-booking-btn {
+    padding: 8px 12px;
+    background-color: #1f852b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .search-bar button:hover,
+  .pdf-btn:hover,
+  .add-booking-btn:hover {
+    background-color: #0b5a23;
+  }

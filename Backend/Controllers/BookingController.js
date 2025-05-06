@@ -1,93 +1,104 @@
-import Booking from './Model/Booking.js';
+const Booking = require("../Model/Booking");
+const Employee = require("../Model/UserModel");
 
-// Create a new booking
-export const createBooking = async (req, res) => {
+// Hourly rates
+const rates = {
+  "Security Guard": 100,
+  "Female Security Guard": 150,
+  "VVIP": 300,
+  "Bodyguard": 200,
+};
+
+// Utility to calculate hours between two date-times
+function calculateWorkingHours(startDate, endDate, startTime, endTime) {
+  const start = new Date(`${startDate}T${startTime}`);
+  const end = new Date(`${endDate}T${endTime}`);
+  const diff = (end - start) / (1000 * 60 * 60); // in hours
+  return Math.max(diff, 0);
+}
+
+// CREATE booking
+exports.createBooking = async (req, res) => {
   try {
-    const { securityType, bookingDate, durationHours, amount } = req.body;
-    const userId = req.user.id;
+    const { employeeId,gmail, guardType, noOfGuard, startDate, endDate, startTime, endTime } = req.body;
 
-    const newBooking = new Booking({
-      userId,
-      securityType,
-      bookingDate,
-      durationHours,
+    const hours = calculateWorkingHours(startDate, endDate, startTime, endTime);
+    const amount = hours * rates[guardType];
+
+    const booking = new Booking({
+      employeeId,
+      gmail,
+      guardType,
+      noOfGuard,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
       amount,
     });
 
-    await newBooking.save();
-    res.status(201).json({ message: 'Booking created successfully', booking: newBooking });
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to create booking', error });
-  }
-};
-
-// Get all bookings (admin or user-specific)
-export const getAllBookings = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const bookings = await Booking.find({ userId });
-    res.status(200).json(bookings);
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to retrieve bookings', error });
-  }
-};
-
-// Get a single booking by ID
-export const getBookingById = async (req, res) => {
-  try {
-    const booking = await Booking.findById(req.params.id);
-    if (!booking) return res.status(404).json({ message: 'Booking not found' });
-    res.status(200).json(booking);
-  } catch (error) {
-    res.status(500).json({ message: 'Error retrieving booking', error });
-  }
-};
-
-// Update a booking
-export const updateBooking = async (req, res) => {
-  try {
-    const booking = await Booking.findById(req.params.id);
-    if (!booking) return res.status(404).json({ message: 'Booking not found' });
-
-    const { securityType, bookingDate, durationHours, amount, paymentStatus } = req.body;
-
-    booking.securityType = securityType || booking.securityType;
-    booking.bookingDate = bookingDate || booking.bookingDate;
-    booking.durationHours = durationHours || booking.durationHours;
-    booking.amount = amount || booking.amount;
-    booking.paymentStatus = paymentStatus || booking.paymentStatus;
-
     await booking.save();
-    res.status(200).json({ message: 'Booking updated', booking });
-  } catch (error) {
-    res.status(500).json({ message: 'Error updating booking', error });
+    res.status(201).json({ message: "Booking created", booking });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Delete a booking
-export const deleteBooking = async (req, res) => {
+// GET all bookings (admin)
+exports.getAllBookings = async (req, res) => {
   try {
-    const booking = await Booking.findByIdAndDelete(req.params.id);
-    if (!booking) return res.status(404).json({ message: 'Booking not found' });
-    res.status(200).json({ message: 'Booking deleted' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error deleting booking', error });
+    const bookings = await Booking.find().populate("employeeId", "name gmail phone address");
+    res.json(bookings);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Search bookings by security type or date
-export const searchBookings = async (req, res) => {
+// GET bookings for a client by employeeId
+exports.getBookingsByEmployee = async (req, res) => {
   try {
-    const { securityType, bookingDate } = req.query;
-    const userId = req.user.id;
+    const bookings = await Booking.find({ employeeId: req.params.employeeId });
+    res.json(bookings);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
-    const filter = { userId };
-    if (securityType) filter.securityType = securityType;
-    if (bookingDate) filter.bookingDate = new Date(bookingDate);
+// UPDATE booking
+exports.updateBooking = async (req, res) => {
+  try {
+    const { guardType, startDate, endDate, startTime, endTime } = req.body;
+    const hours = calculateWorkingHours(startDate, endDate, startTime, endTime);
+    const amount = noOfGuard*hours * rates[guardType];
 
-    const bookings = await Booking.find(filter);
-    res.status(200).json(bookings);
-  } catch (error) {
-    res.status(500).json({ message: 'Search failed', error });
+    const updatedBooking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      { guardType, startDate, endDate, startTime, endTime, amount },
+      { new: true }
+    );
+    res.json(updatedBooking);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// DELETE booking
+exports.deleteBooking = async (req, res) => {
+  try {
+    await Booking.findByIdAndDelete(req.params.id);
+    res.json({ message: "Booking deleted" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// SEARCH booking by bookingId
+exports.searchBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findOne({ bookingId: req.params.bookingId });
+    if (!booking) return res.status(404).json({ message: "Booking not found" });
+    res.json(booking);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
