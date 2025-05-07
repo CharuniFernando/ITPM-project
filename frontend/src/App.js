@@ -23,6 +23,7 @@ import UpdateInquiry from "./Components/Client Management/UpdateInquiry/UpdateIn
 import UpdateBooking from "./Components/Booking Management/UpdateBooking/UpdateBooking";
 import Bookings from "./Components/Operation Management/Bookings/Bookings";
 import About from "./Components/Home/UserHome/About";
+import Booking from "./Components/Home/UserHome/Booking";
 import LeveLogin from "./Components/LeaveManagement/Login/LeveLogin";
 import AddLeave from "./Components/LeaveManagement/Dash/AddLeave";
 import LeaveDash from "./Components/LeaveManagement/Dash/LeaveDash";
@@ -43,6 +44,7 @@ function App() {
           {/*Home Page User*/}
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/booking" element={<Booking />} />
           {/*User Managemnet System*/}
           <Route path="/user/adduser" element={<AddUser />} />
           <Route path="/useredetails" element={<UserDetails />} />

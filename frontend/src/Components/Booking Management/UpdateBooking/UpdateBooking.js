@@ -98,11 +98,12 @@ const UpdateBooking = () => {
         <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} required />
         <input type="time" name="endTime" value={formData.endTime} onChange={handleChange} required />
         
+
+        <button type="submit" className="update-button">Update Booking</button>
+
         <div className="amount-to-pay">
           <strong>Amount to Pay: Rs.{formData.amount}</strong>
         </div>
-
-        <button type="submit" className="update-button">Update Booking</button>
       </form>
     </div>
   );
