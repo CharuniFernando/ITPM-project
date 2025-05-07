@@ -1,0 +1,75 @@
+/* Update Booking Styles */
+.update-booking-container {
+    width: 80%;
+    margin: 40px auto;
+    background-color: #133639;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.admin_topic {
+    text-align: center;
+    font-size: 2.3rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.update-booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.update-booking-form input,.update-booking-form select  {
+    width: 90%;
+    max-width: 500px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: border-color 0.3s;
+}
+
+.update-booking-form input:focus {
+    border-color: #115b28;
+    outline: none;
+}
+
+.update-button {
+    width: 200px;
+    padding: 10px 0;
+    font-size: 1.1rem;
+    background-color: #195f10;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(23, 122, 30, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.update-button:hover {
+    background-color: #083f17;
+    box-shadow: 0 8px 20px #083f17(0, 123, 255, 0.5);
+}
+
+.amount-to-pay {
+    margin-top: 15px;
+    font-size: 18px;
+    color: #dcfbf1;
+    text-align: center;
+  }
+
+.fade_up {
+    animation: fadeUp 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}

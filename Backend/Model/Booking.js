@@ -10,7 +10,6 @@ const BookingSchema = new Schema({
   employeeId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Employee",
-    required: true,
   },
   gmail: {
     type: String,

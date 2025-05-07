@@ -62,13 +62,13 @@ function App() {
           <Route path="/verifycode" element={<ValidateCode />} />
           <Route path="/updateInqu/:id" element={<UpdateInquiry />} />
           {/*Booking Managemnet System*/}
-          <Route path="/addbooking" element={<AddBooking />} />
+          <Route path="/add-booking" element={<AddBooking />} />
           <Route path="/bookingdash" element={<AllBookings />} />
           <Route
             path="/bookingmanagerlogin"
             element={<BookingManagerLogin />}
           />
-          <Route path="/updateboking/:id" element={<UpdateBooking />} />
+          <Route path="/update-booking/:employeeId" element={<UpdateBooking />} />
           {/*Operation Managemnet System*/}
           <Route path="/add-operation" element={<AddOperations />} />
           <Route path="/operations" element={<Operations />} />

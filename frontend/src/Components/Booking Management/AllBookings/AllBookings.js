@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { useNavigate } from "react-router-dom";
 import "../booking.css";
 import { IoIosLogOut } from "react-icons/io";
 
@@ -9,19 +10,22 @@ const URL = "http://localhost:5000/api/bookings/all";
 
 const AllBookings = () => {
   const [bookings, setBookings] = useState([]);
-  const [allBookings, setAllBookings] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [noResults, setNoResults] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchBookings();
   }, []);
 
+  useEffect(() => {
+    handleSearch();
+  }, [searchQuery]);
+
   const fetchBookings = async () => {
     try {
       const res = await axios.get(URL);
       setBookings(res.data);
-      setAllBookings(res.data);
     } catch (err) {
       console.error("Fetch Error:", err);
     }
@@ -29,21 +33,23 @@ const AllBookings = () => {
 
   const handleSearch = () => {
     if (searchQuery.trim() === "") {
-      setBookings(allBookings);
       setNoResults(false);
       return;
     }
 
-    const filtered = allBookings.filter((booking) =>
-      Object.values(booking)
-        .concat(Object.values(booking.employeeId || {}))
+    const filtered = bookings.filter((booking) => {
+      const combinedData = {
+        ...booking,
+        ...booking.employeeDetails,
+      };
+      return Object.values(combinedData)
         .some((val) =>
           val?.toString().toLowerCase().includes(searchQuery.toLowerCase())
-        )
-    );
+        );
+    });
 
-    setBookings(filtered);
     setNoResults(filtered.length === 0);
+    setBookings(filtered);
   };
 
   const generatePDF = () => {
@@ -60,6 +66,7 @@ const AllBookings = () => {
           "Phone",
           "Address",
           "Guard Type",
+          "Number of Guards",
           "Start Date",
           "Start Time",
           "End Date",
@@ -68,11 +75,12 @@ const AllBookings = () => {
         ],
       ],
       body: bookings.map((b) => [
-        b.employeeId?.name || "N/A",
-        b.employeeId?.gmail || "N/A",
-        b.employeeId?.phone || "N/A",
-        b.employeeId?.address || "N/A",
+        b.employeeDetails?.name || "N/A",
+        b.employeeDetails?.gmail || b.gmail || "N/A",
+        b.employeeDetails?.phone || "N/A",
+        b.employeeDetails?.address || "N/A",
         b.guardType,
+        b.noOfGuard,
         b.startDate,
         b.startTime,
         b.endDate,
@@ -92,17 +100,14 @@ const AllBookings = () => {
       return;
     }
 
-    const confirmDelete = window.confirm("Are you sure you want to delete this Booking?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this Booking?"
+    );
     if (!confirmDelete) return;
 
     try {
-      const response = await axios.delete(`http://localhost:5000/api/bookings/delete/${id}`);
-      console.log("Delete response:", response.data);
-
-      const updated = bookings.filter((b) => b._id !== id);
-      setBookings(updated);
-      setAllBookings(updated);
-
+      await axios.delete(`http://localhost:5000/api/bookings/delete/${id}`);
+      setBookings((prev) => prev.filter((b) => b._id !== id));
       alert("Booking deleted successfully");
     } catch (err) {
       console.error("Delete Error:", err.response?.data || err.message);
@@ -110,9 +115,12 @@ const AllBookings = () => {
     }
   };
 
-  const handleUpdate = (id) => {
-    alert(`Updating booking with ID: ${id}`);
-    // Replace alert with navigation logic if needed
+  const handleUpdate = (booking) => {
+    navigate(`/update-booking/${booking._id}`, { state: { booking } });
+  };
+
+  const handleAddBooking = () => {
+    navigate("/add-booking");
   };
 
   return (
@@ -129,17 +137,13 @@ const AllBookings = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button onClick={handleSearch}>Search</button>
         </div>
 
         <div className="right-buttons">
           <button className="pdf-btn" onClick={generatePDF}>
             Generate Report
           </button>
-          <button
-            className="add-booking-btn"
-            onClick={() => alert("Add Booking")}
-          >
+          <button className="add-booking-btn" onClick={handleAddBooking}>
             Add Booking
           </button>
         </div>
@@ -156,7 +160,7 @@ const AllBookings = () => {
               <th>Phone</th>
               <th>Address</th>
               <th>Guard Type</th>
-              <th>Number of Guard</th>
+              <th>Number of Guards</th>
               <th>Start Date</th>
               <th>Start Time</th>
               <th>End Date</th>
@@ -168,10 +172,10 @@ const AllBookings = () => {
           <tbody>
             {bookings.map((b) => (
               <tr key={b._id}>
-                <td>{b.employeeId?.name || "N/A"}</td>
-                <td>{b.employeeId?.gmail || "N/A"}</td>
-                <td>{b.employeeId?.phone || "N/A"}</td>
-                <td>{b.employeeId?.address || "N/A"}</td>
+                <td>{b.employeeDetails?.name || "N/A"}</td>
+                <td>{b.employeeDetails?.gmail || b.gmail || "N/A"}</td>
+                <td>{b.employeeDetails?.phone || "N/A"}</td>
+                <td>{b.employeeDetails?.address || "N/A"}</td>
                 <td>{b.guardType}</td>
                 <td>{b.noOfGuard}</td>
                 <td>{b.startDate}</td>
@@ -180,16 +184,10 @@ const AllBookings = () => {
                 <td>{b.endTime}</td>
                 <td>{b.amount}</td>
                 <td>
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(b._id)}
-                  >
+                  <button className="delete-btn" onClick={() => handleDelete(b._id)}>
                     Delete
                   </button>
-                  <button
-                    className="update-btn"
-                    onClick={() => handleUpdate(b._id)}
-                  >
+                  <button className="update-btn" onClick={() => handleUpdate(b)}>
                     Update
                   </button>
                 </td>
@@ -198,15 +196,6 @@ const AllBookings = () => {
           </tbody>
         </table>
       )}
-
-      <div className="logout-btn-main fade_up">
-        <div
-          className="logout-btn-sub"
-          onClick={() => (window.location.href = "/admin")}
-        >
-          <IoIosLogOut className="logout-btn" />
-        </div>
-      </div>
     </div>
   );
 };

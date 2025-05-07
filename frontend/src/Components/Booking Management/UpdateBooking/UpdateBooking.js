@@ -1,205 +1,111 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./updateBooking.css";
 
-function UpdateBooking() {
-  const [inputs, setInputs] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    packages: "",
-    date: "",
-    status: "Pending",
-    securityOfficer: "",
-    specialInstructions: "",
+const UpdateBooking = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const booking = location.state?.booking || {};
+
+  const [formData, setFormData] = useState({
+    name: booking.employeeDetails?.name || "",
+    gmail: booking.employeeDetails?.gmail || "",
+    phone: booking.employeeDetails?.phone || "",
+    address: booking.employeeDetails?.address || "",
+    guardType: booking.guardType || "",
+    noOfGuard: booking.noOfGuard || "",
+    startDate: booking.startDate || "",
+    startTime: booking.startTime || "",
+    endDate: booking.endDate || "",
+    endTime: booking.endTime || "",
+    amount: booking.amount || "",
   });
-  const [loading, setLoading] = useState(true);
-  const history = useNavigate();
-  const { id } = useParams();
 
   useEffect(() => {
-    const fetchHandler = async () => {
-      try {
-        console.log("Fetching data for id:", id);
-        const response = await axios.get(`http://localhost:5000/bookings/${id}`);
-        const data = response.data.booking; // Assuming data.booking is the correct path
-        console.log("Data fetched:", data);
-        setInputs({
-          name: data.name || "",
-          email: data.email || "",
-          phone: data.phone || "",
-          packages: data.packages || "",
-          date: data.date || "",
-          status: data.status || "Pending",
-          securityOfficer: data.securityOfficer || "",
-          specialInstructions: data.specialInstructions || "",
-        });
-        console.log("Inputs state after fetch:", inputs); // Debug log
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      }
-    };
-    fetchHandler();
-  }, [id]);
-  
-
-  const sendRequest = async () => {
-    try {
-      await axios.put(`http://localhost:5000/bookings/${id}`, inputs);
-    } catch (error) {
-      console.error("Error sending update request:", error);
+    if (!booking._id) {
+      alert("No booking selected.");
+      navigate("/bookingdash");
     }
-  };
+  }, [booking._id, navigate]);
 
   const handleChange = (e) => {
-    setInputs((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      const updatedData = { ...prevData, [name]: value };
+      
+      // Auto-calculate the amount whenever relevant fields change
+      if (name === "noOfGuard" || name === "startDate" || name === "startTime" || name === "endDate" || name === "endTime" || name === "guardType") {
+        updatedData.amount = calculateAmount(updatedData);
+      }
+      return updatedData;
+    });
+  };
+
+  const calculateAmount = (data) => {
+    const { noOfGuard, startDate, startTime, endDate, endTime, guardType } = data;
+    if (!noOfGuard || !startDate || !startTime || !endDate || !endTime || !guardType) return 0;
+    const start = new Date(`${startDate}T${startTime}`);
+    const end = new Date(`${endDate}T${endTime}`);
+    const durationInHours = Math.abs((end - start) / (1000 * 60 * 60));
+    const pricePerGuard = guardType === "Security Guard" ? 100 : guardType === "Female Security Guard" ? 150 : guardType === "VVIP" ? 300 : guardType === "Bodyguard" ? 200 : 100;
+    return noOfGuard * pricePerGuard * durationInHours;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    sendRequest().then(() => {
-      window.alert("Booking updated successfully!");
-      history("/bookingdash");
-    });
+    try {
+      const updatedBooking = {
+        employeeId: booking.employeeId, // Keep the original employeeId as it is
+        guardType: formData.guardType,
+        noOfGuard: formData.noOfGuard,
+        startDate: formData.startDate,
+        startTime: formData.startTime,
+        endDate: formData.endDate,
+        endTime: formData.endTime,
+        amount: formData.amount,
+      };
+
+      await axios.put(`http://localhost:5000/api/bookings/${booking._id}`, updatedBooking);
+      alert("Booking updated successfully.");
+      navigate("/bookingdash");
+    } catch (err) {
+      console.error("Update Error:", err);
+      alert("Failed to update booking. See console for details.");
+    }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div>
-      <div className="auth_from_update">
-        <div className="auth_from_update_main">
-          <h1 className="auth_topic">
-            Update <span className="course-us">Booking</span>
-          </h1>
-          <form onSubmit={handleSubmit} className="booking-full-box-form">
-            <label className="form_lable">Name</label>
-            <br />
-            <input
-              type="text"
-              name="name"
-              value={inputs.name}
-              onChange={handleChange}
-              className="form_input"
-              pattern="[A-Za-z\s]+"
-              title="Only letters and spaces are allowed"
-              required
-            />
-            <br />
-            <label className="form_lable">Email</label>
-            <br />
-            <input
-              type="email"
-              name="email"
-              value={inputs.email}
-              onChange={(e) => {
-                // Allow only letters, numbers, and periods
-                const regex = /^[a-zA-Z0-9._@]+$/; // Regex to allow letters, numbers, and periods only
-                if (regex.test(e.target.value) || e.target.value === "") {
-                  handleChange(e); // Update input if valid
-                }}}
-              className="form_input"
-              required
-            />
-            <br />
-            <label className="form_lable">Phone</label>
-            <br />
-            <input
-              type="tel"
-              name="phone"
-              value={inputs.phone}
-              onChange={handleChange}
-              className="form_input"
-              pattern="[0-9]{10}"
-              maxLength={10}
-              inputMode="numeric"
-              onInput={(e)=>{
-                e.target.value = e.target.value.replace(/[^0-9]/g,"");
-              }}
-              required
-            />
-            <br />
-            <label className="form_lable">Packages</label>
-            <br />
-            <select
-              name="packages"
-              value={inputs.packages}
-              onChange={handleChange}
-               className="form_input"
-              required
-            >
-              <option value="" disabled>
-                Select a package
-              </option>
-              <option value="Lady security officers (3 members)">
-                Lady security officers (3 members)
-              </option>
-              <option value="Security officers (2 members)">
-                Security officers (2 members)
-              </option>
-              <option value="VVIP officer (25 members)">
-                VVIP officer (25 members)
-              </option>
-              <option value="Bodyguard (10 members)">
-                Bodyguard (10 members)
-              </option>
-            </select>
-            <br />
-            <label className="form_lable">Date</label>
-            <br />
-            <input
-              type="date"
-              name="date"
-              value={inputs.date}
-              onChange={handleChange}
-              className="form_input"
-              min={new Date().toISOString().split("T")[0]}
-              required
-            />
-            <br />
-            <label className="form_lable">Security Officer</label>
-            <br />
-            <input
-              type="text"
-              name="securityOfficer"
-              value={inputs.securityOfficer}
-              onChange={handleChange}
-              className="form_input"
-              pattern="[A-Za-z\s]+"
-              title="Only letters and spaces are allowed"
-              required
-            />
-            <br />
-            <label className="form_lable">
-              Special Instructions
-            </label>
-            <br />
-            <input
-              type="text"
-              name="specialInstructions"
-              value={inputs.specialInstructions}
-              onChange={handleChange}
-              className="form_input"
-              pattern="[A-Za-z0-9\s]+"
-              title="Only letters, numbers, and spaces are allowed. No special characters or minus numbers."
-              required
-            />
-            <br />
-            <button type="submit" className="auth_btn" >
-              Update Booking
-            </button>
-          </form>
+    <div className="update-booking-container">
+      <h1 className="admin_topic fade_up">Update Booking</h1>
+      <form className="update-booking-form" onSubmit={handleSubmit}>
+        <input type="text" name="name" placeholder="Name" value={formData.name} disabled />
+        <input type="email" name="gmail" placeholder="Gmail" value={formData.gmail} disabled />
+        <input type="text" name="phone" placeholder="Phone" value={formData.phone} disabled />
+        <input type="text" name="address" placeholder="Address" value={formData.address} disabled />
+        
+        <select name="guardType" value={formData.guardType} onChange={handleChange} required>
+          <option value="">Select Guard Type</option>
+          <option value="Security Guard">Security Guard</option>
+          <option value="Female Security Guard">Female Security Guard</option>
+          <option value="VVIP">VVIP</option>
+          <option value="Bodyguard">Bodyguard</option>
+        </select>
+
+        <input type="number" name="noOfGuard" placeholder="Number of Guards" value={formData.noOfGuard} onChange={handleChange} required />
+        <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} required />
+        <input type="time" name="startTime" value={formData.startTime} onChange={handleChange} required />
+        <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} required />
+        <input type="time" name="endTime" value={formData.endTime} onChange={handleChange} required />
+        
+        <div className="amount-to-pay">
+          <strong>Amount to Pay: Rs.{formData.amount}</strong>
         </div>
-      </div>
+
+        <button type="submit" className="update-button">Update Booking</button>
+      </form>
     </div>
   );
-}
+};
 
 export default UpdateBooking;
