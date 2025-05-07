@@ -20,13 +20,12 @@ function calculateWorkingHours(startDate, endDate, startTime, endTime) {
 // CREATE booking
 exports.createBooking = async (req, res) => {
   try {
-    const { employeeId,gmail, guardType, noOfGuard, startDate, endDate, startTime, endTime } = req.body;
+    const { gmail, guardType, noOfGuard, startDate, endDate, startTime, endTime } = req.body;
 
     const hours = calculateWorkingHours(startDate, endDate, startTime, endTime);
     const amount = hours * rates[guardType];
 
     const booking = new Booking({
-      employeeId,
       gmail,
       guardType,
       noOfGuard,
@@ -44,43 +43,79 @@ exports.createBooking = async (req, res) => {
   }
 };
 
+
 // GET all bookings (admin)
 exports.getAllBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find().populate("employeeId", "name gmail phone address");
-    res.json(bookings);
+    const bookings = await Booking.find();
+
+    // Fetch employee details based on gmail
+    const populatedBookings = await Promise.all(
+      bookings.map(async (booking) => {
+        const employee = await Employee.findOne({ gmail: booking.gmail });
+        return {
+          ...booking._doc,
+          employeeDetails: employee ? {
+            name: employee.name,
+            gmail: employee.gmail,
+            phone: employee.phone,
+            address: employee.address,
+          } : null,
+        };
+      })
+    );
+
+    res.json(populatedBookings);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// GET bookings for a client by employeeId
-exports.getBookingsByEmployee = async (req, res) => {
+// GET booking details by bookingId
+exports.getBookingById = async (req, res) => {
   try {
-    const bookings = await Booking.find({ employeeId: req.params.employeeId });
-    res.json(bookings);
+    const booking = await Booking.findById(req.params.bookingId);
+    if (!booking) return res.status(404).json({ error: "Booking not found" });
+
+    // Fetch employee details based on gmail
+    const employee = await Employee.findOne({ gmail: booking.gmail });
+
+    res.json({
+      ...booking._doc,
+      employeeDetails: employee ? {
+        name: employee.name,
+        gmail: employee.gmail,
+        phone: employee.phone,
+        address: employee.address,
+      } : null,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// UPDATE booking
-exports.updateBooking = async (req, res) => {
-  try {
-    const { guardType, startDate, endDate, startTime, endTime } = req.body;
-    const hours = calculateWorkingHours(startDate, endDate, startTime, endTime);
-    const amount = noOfGuard*hours * rates[guardType];
 
+// UPDATE booking by bookingId
+exports.updateBookingById = async (req, res) => {
+  try {
     const updatedBooking = await Booking.findByIdAndUpdate(
-      req.params.id,
-      { guardType, startDate, endDate, startTime, endTime, amount },
+      req.params.bookingId,
+      req.body,
       { new: true }
     );
-    res.json(updatedBooking);
+
+    if (!updatedBooking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    res.json({ message: "Booking updated successfully!", booking: updatedBooking });
   } catch (err) {
+    console.error("Error updating booking by ID:", err);
     res.status(500).json({ error: err.message });
   }
 };
+
+
 
 // DELETE booking
 exports.deleteBooking = async (req, res) => {

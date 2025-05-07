@@ -9,10 +9,10 @@ router.post("/create", bookingController.createBooking);
 router.get("/all", bookingController.getAllBookings);
 
 // Client - get bookings by employeeId
-router.get("/client/:employeeId", bookingController.getBookingsByEmployee);
+router.get("/:bookingId", bookingController.getBookingById);
 
 // Update
-router.put("/update/:id", bookingController.updateBooking);
+router.put("/:bookingId", bookingController.updateBookingById);
 
 // Delete
 router.delete("/delete/:id", bookingController.deleteBooking);
