@@ -1,12 +1,4 @@
-body {
-  margin: 0;
-  padding: 0;
-  background-image: url('../img/SGS13.jpg'); /* Update the path */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  font-family: Arial, sans-serif;
-}
+
 
 /* Optional: Add a semi-transparent background for the form */
 .booking-form-container {

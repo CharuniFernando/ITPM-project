@@ -94,6 +94,31 @@ exports.getBookingById = async (req, res) => {
   }
 };
 
+// GET bookings by Gmail (for logged-in user)
+exports.getBookingsByGmail = async (req, res) => {
+  try {
+    const gmail = req.params.gmail;
+    const bookings = await Booking.find({ gmail });
+
+    const employee = await Employee.findOne({ gmail });
+
+    const populatedBookings = bookings.map((booking) => ({
+      ...booking._doc,
+      employeeDetails: employee ? {
+        name: employee.name,
+        gmail: employee.gmail,
+        phone: employee.phone,
+        address: employee.address,
+      } : null,
+    }));
+
+    res.json(populatedBookings);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
 
 // UPDATE booking by bookingId
 exports.updateBookingById = async (req, res) => {
@@ -133,6 +158,20 @@ exports.searchBooking = async (req, res) => {
     const booking = await Booking.findOne({ bookingId: req.params.bookingId });
     if (!booking) return res.status(404).json({ message: "Booking not found" });
     res.json(booking);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+exports.login = async (req, res) => {
+  try {
+    const { gmail, password } = req.body;
+    const employee = await Employee.findOne({ gmail });
+    if (!employee || employee.password !== password) { // Replace with proper password hashing
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    res.json({ success: true, message: 'Login successful' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import SGS14 from "../img/SGS14.jpg"; // Adjust path if image is in a different directory
 import "./updateBooking.css";
 
 const UpdateBooking = () => {
@@ -76,35 +77,58 @@ const UpdateBooking = () => {
   };
 
   return (
-    <div className="update-booking-container">
-      <h1 className="admin_topic fade_up">Update Booking</h1>
-      <form className="update-booking-form" onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Name" value={formData.name} disabled />
-        <input type="email" name="gmail" placeholder="Gmail" value={formData.gmail} disabled />
-        <input type="text" name="phone" placeholder="Phone" value={formData.phone} disabled />
-        <input type="text" name="address" placeholder="Address" value={formData.address} disabled />
-        
-        <select name="guardType" value={formData.guardType} onChange={handleChange} required>
-          <option value="">Select Guard Type</option>
-          <option value="Security Guard">Security Guard</option>
-          <option value="Female Security Guard">Female Security Guard</option>
-          <option value="VVIP">VVIP</option>
-          <option value="Bodyguard">Bodyguard</option>
-        </select>
+    <div
+      className="page-background"
+      style={{
+        backgroundImage: `url(${SGS14})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100vh",
+        position: "relative",
+        padding: "20px",
+      }}
+    >
+      <div
+        className="overlay"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 1,
+        }}
+      />
+      <div className="update-booking-container">
+        <h1 className="admin_topic fade_up">Update Booking</h1>
+        <form className="update-booking-form" onSubmit={handleSubmit}>
+          <input type="text" name="name" placeholder="Name" value={formData.name} disabled />
+          <input type="email" name="gmail" placeholder="Gmail" value={formData.gmail} disabled />
+          <input type="text" name="phone" placeholder="Phone" value={formData.phone} disabled />
+          <input type="text" name="address" placeholder="Address" value={formData.address} disabled />
+          
+          <select name="guardType" value={formData.guardType} onChange={handleChange} required>
+            <option value="">Select Guard Type</option>
+            <option value="Security Guard">Security Guard</option>
+            <option value="Female Security Guard">Female Security Guard</option>
+            <option value="VVIP">VVIP</option>
+            <option value="Bodyguard">Bodyguard</option>
+          </select>
 
-        <input type="number" name="noOfGuard" placeholder="Number of Guards" value={formData.noOfGuard} onChange={handleChange} required />
-        <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} required />
-        <input type="time" name="startTime" value={formData.startTime} onChange={handleChange} required />
-        <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} required />
-        <input type="time" name="endTime" value={formData.endTime} onChange={handleChange} required />
-        
+          <input type="number" name="noOfGuard" placeholder="Number of Guards" value={formData.noOfGuard} onChange={handleChange} required />
+          <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} required />
+          <input type="time" name="startTime" value={formData.startTime} onChange={handleChange} required />
+          <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} required />
+          <input type="time" name="endTime" value={formData.endTime} onChange={handleChange} required />
+          
+          <button type="submit" className="update-button">Update Booking</button>
 
-        <button type="submit" className="update-button">Update Booking</button>
-
-        <div className="amount-to-pay">
-          <strong>Amount to Pay: Rs.{formData.amount}</strong>
-        </div>
-      </form>
+          <div className="amount-to-pay">
+            <strong>Amount to Pay: Rs.{formData.amount}</strong>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

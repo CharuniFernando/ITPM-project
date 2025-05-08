@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import SGS13 from "../img/SGS13.jpg"; // Adjust path if image is in a different directory
 import "./addBooking.css";
 
 // Hourly rates
@@ -56,37 +57,61 @@ const AddBookingForm = () => {
   };
 
   return (
-    <div className="booking-form-container">
-      <h2>Create New Booking</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Gmail:</label>
-        <input type="email" name="gmail" value={formData.gmail} onChange={handleChange} required />
+    <div
+      className="page-background"
+      style={{
+        backgroundImage: `url(${SGS13})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100vh",
+        position: "relative",
+        padding: "20px",
+      }}
+    >
+      <div
+        className="overlay"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 1,
+        }}
+      />
+      <div className="booking-form-container">
+        <h2>Create New Booking</h2>
+        <form onSubmit={handleSubmit}>
+          <label>Gmail:</label>
+          <input type="email" name="gmail" value={formData.gmail} onChange={handleChange} required />
 
-        <label>Guard Type:</label>
-        <select name="guardType" value={formData.guardType} onChange={handleChange} required>
-          {Object.keys(rates).map((type) => (
-            <option key={type} value={type}>{type}</option>
-          ))}
-        </select>
+          <label>Guard Type:</label>
+          <select name="guardType" value={formData.guardType} onChange={handleChange} required>
+            {Object.keys(rates).map((type) => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
 
-        <label>Number of Guards:</label>
-        <input type="number" name="noOfGuard" value={formData.noOfGuard} min="1" onChange={handleChange} required />
+          <label>Number of Guards:</label>
+          <input type="number" name="noOfGuard" value={formData.noOfGuard} min="1" onChange={handleChange} required />
 
-        <label>Start Date:</label>
-        <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} required />
+          <label>Start Date:</label>
+          <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} required />
 
-        <label>Start Time:</label>
-        <input type="time" name="startTime" value={formData.startTime} onChange={handleChange} required />
+          <label>Start Time:</label>
+          <input type="time" name="startTime" value={formData.startTime} onChange={handleChange} required />
 
-        <label>End Date:</label>
-        <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} required />
+          <label>End Date:</label>
+          <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} required />
 
-        <label>End Time:</label>
-        <input type="time" name="endTime" value={formData.endTime} onChange={handleChange} required />
+          <label>End Time:</label>
+          <input type="time" name="endTime" value={formData.endTime} onChange={handleChange} required />
 
-        <button type="submit" className="sub">Submit</button>
-        <p>Amount to Pay: Rs.{amount}</p>
-      </form>
+          <button type="submit" className="sub">Submit</button>
+          <p>Amount to Pay: Rs.{amount}</p>
+        </form>
+      </div>
     </div>
   );
 };

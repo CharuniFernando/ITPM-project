@@ -24,6 +24,8 @@ import UpdateBooking from "./Components/Booking Management/UpdateBooking/UpdateB
 import Bookings from "./Components/Operation Management/Bookings/Bookings";
 import About from "./Components/Home/UserHome/About";
 import Booking from "./Components/Home/UserHome/Booking";
+import Mybooking from "./Components/Home/UserHome/Mybooking";
+import MyBookingDash from "./Components/Home/UserHome/MyBookingDash";
 import LeveLogin from "./Components/LeaveManagement/Login/LeveLogin";
 import AddLeave from "./Components/LeaveManagement/Dash/AddLeave";
 import LeaveDash from "./Components/LeaveManagement/Dash/LeaveDash";
@@ -45,6 +47,8 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/booking" element={<Booking />} />
+          <Route path="/my-booking" element={<Mybooking />} />
+          <Route path="/my-bookingdash" element={<MyBookingDash />} />
           {/*User Managemnet System*/}
           <Route path="/user/adduser" element={<AddUser />} />
           <Route path="/useredetails" element={<UserDetails />} />
@@ -66,10 +70,7 @@ function App() {
           {/*Booking Managemnet System*/}
           <Route path="/add-booking" element={<AddBooking />} />
           <Route path="/bookingdash" element={<AllBookings />} />
-          <Route
-            path="/bookingmanagerlogin"
-            element={<BookingManagerLogin />}
-          />
+          <Route path="/bookingmanagerlogin" element={<BookingManagerLogin />}/>
           <Route path="/update-booking/:employeeId" element={<UpdateBooking />} />
           {/*Operation Managemnet System*/}
           <Route path="/add-operation" element={<AddOperations />} />

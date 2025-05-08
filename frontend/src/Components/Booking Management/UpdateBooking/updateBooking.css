@@ -1,13 +1,4 @@
 /* Update Booking Styles */
-body {
-    margin: 0;
-    padding: 0;
-    background-image: url('../img/SGS14.jpg'); /* Update the path */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    font-family: Arial, sans-serif;
-  }
 .update-booking-container {
         background-color: rgba(255, 255, 255, 0.3); /* Transparent white */
         backdrop-filter: blur(10px); /* Apply blur effect */
@@ -71,7 +62,7 @@ body {
 .amount-to-pay {
     margin-top: 15px;
     font-size: 18px;
-    color: #000000;
+    color: #dcfbf1;
     text-align: center;
   }
 

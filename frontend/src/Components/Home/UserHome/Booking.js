@@ -20,7 +20,7 @@ const Booking = () => {
   const navigate = useNavigate();
 
   const handleViewBookings = () => {
-    navigate('/my-bookings');
+    navigate('/my-bookingdash');
   };
 
   const handleAddBooking = () => {
