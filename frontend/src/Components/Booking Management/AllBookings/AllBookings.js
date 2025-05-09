@@ -72,6 +72,7 @@ const AllBookings = () => {
           "End Date",
           "End Time",
           "Amount",
+          "Payment Status"
         ],
       ],
       body: bookings.map((b) => [
@@ -86,6 +87,7 @@ const AllBookings = () => {
         b.endDate,
         b.endTime,
         b.amount,
+        b.paymentStatus,
       ]),
       theme: "striped",
       margin: { top: 30 },
@@ -166,6 +168,7 @@ const AllBookings = () => {
               <th>End Date</th>
               <th>End Time</th>
               <th>Amount</th>
+              <th>Payment Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -183,6 +186,7 @@ const AllBookings = () => {
                 <td>{b.endDate}</td>
                 <td>{b.endTime}</td>
                 <td>{b.amount}</td>
+                <td>{b.paymentStatus}</td>
                 <td>
                   <button className="delete-btn" onClick={() => handleDelete(b._id)}>
                     Delete

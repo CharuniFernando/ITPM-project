@@ -46,6 +46,11 @@ const BookingSchema = new Schema({
   amount: {
     type: Number,
   },
+  paymentStatus: {
+    type: String,
+    enum: ["Pending", "Paid"],
+    default: "Pending",
+  }
 });
 
 // Auto-generate unique bookingID

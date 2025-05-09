@@ -6,6 +6,7 @@ const operationRoutes = require("./Routes/OperationRoute.js");
 const LeaveRoutes = require("./Routes/LeaveRoute.js");
 const Employee = require("./Model/UserModel.js");
 const BookingRoutes = require("./Routes/BookingRoutes.js");
+const paymentRoutes = require("./Routes/PaymentRoutes.js");
 const nodemailer = require("nodemailer");
 const connectDB = require("./Config/db.js");
 const bodyParser = require("body-parser");
@@ -34,6 +35,7 @@ app.use("/inquiries", ClientRoute);
 app.use("/operations", operationRoutes);
 app.use("/leave", LeaveRoutes);
 app.use("/api/bookings", BookingRoutes); 
+app.use("/api", paymentRoutes);
 app.use('/uploads', express.static('uploads'));
 const PORT = process.env.PORT || 8080;
 

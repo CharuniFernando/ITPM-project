@@ -392,6 +392,16 @@ const MyBooking = () => {
                       borderBottom: '2px solid #e0e0e0',
                     }}
                   >
+                    Payment Status
+                  </th>
+                  <th
+                    style={{
+                      padding: '15px',
+                      fontWeight: '600',
+                      fontSize: '1rem',
+                      borderBottom: '2px solid #e0e0e0',
+                    }}
+                  >
                     Actions
                   </th>
                 </tr>
@@ -481,6 +491,16 @@ const MyBooking = () => {
                       }}
                     >
                       {booking.amount ? `Rs.${booking.amount}` : 'N/A'}
+                    </td>
+                    <td
+                      style={{
+                        padding: '15px',
+                        borderBottom: '1px solid #e0e0e0',
+                        fontSize: '0.95rem',
+                        color: '#333',
+                      }}
+                    >
+                      {booking.paymentStatus ? `${booking.paymentStatus}` : 'N/A'}
                     </td>
                     <td
                       style={{
