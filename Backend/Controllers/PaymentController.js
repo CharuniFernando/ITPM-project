@@ -28,7 +28,7 @@ exports.recordPayment = async (req, res) => {
 
     res.status(200).json({ message: "Payment recorded successfully", payment });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
@@ -36,22 +36,30 @@ exports.recordPayment = async (req, res) => {
 exports.getAllPayments = async (req, res) => {
   try {
     const payments = await Payment.find()
-      .populate("booking", "bookingID amount")
+      .populate("booking", "bookingID gmail") // Populate bookingID and gmail (proxy for name)
       .select("booking amount paymentStatus paymentMethod transactionId createdAt");
 
-    const paymentDetails = payments.map((payment) => ({
-      bookingID: payment.booking.bookingID,
-      amount: payment.amount,
-      paymentStatus: payment.paymentStatus,
-      paymentMethod: payment.paymentMethod,
-      transactionamo: false,
-      transactionId: payment.transactionId,
-      paymentDateTime: payment.createdAt,
-    }));
+    // Map payments to the desired response format
+    const paymentDetails = payments
+      .filter(payment => payment.booking) // Ensure booking exists
+      .map((payment) => ({
+        bookingID: payment.booking.bookingID,
+        name: payment.booking.gmail, // Using gmail as proxy for name
+        amount: payment.amount,
+        paymentStatus: payment.paymentStatus,
+        paymentMethod: payment.paymentMethod,
+        transactionId: payment.transactionId,
+        paymentDateTime: payment.createdAt,
+      }));
+
+    if (paymentDetails.length === 0) {
+      return res.status(404).json({ message: "No payments found" });
+    }
 
     res.status(200).json(paymentDetails);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    console.error("Error fetching payments:", error); // Log for debugging
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 

@@ -1,6 +1,6 @@
 .booking-container {
     padding: 50px;
-    background-color: #1e8d95;
+    background-color: #ffffff;
     min-height: 100vh;
     font-family: Arial, sans-serif;
   }
@@ -8,12 +8,12 @@
   .admin_topic {
     text-align: center;
     font-size: 32px;
-    color: #333;
+    color: #393E46;
     margin-bottom: 30px;
   }
   
   .admin_topic span {
-    color: #dfdddd;
+    color: #A5B68D;
   }
   
   .top-bar {
@@ -86,11 +86,11 @@
 }
   
   .delete-btn {
-    background-color: #781b19;
+    background-color: #8a2725;
   }
   
   .update-btn {
-    background-color: #19561b;
+    background-color: #206e22;
   }
   
   .delete-btn:hover {
@@ -129,26 +129,46 @@
     background-color: #45a049;
   }
   
-  .logout-btn-main {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 999; /* Ensure it stays above other elements */
-  }
-  
-  .logout-btn-sub {
-    background: #013932;
-    padding: 12px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: inline-block;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional for better visibility */
-  }
-  
-  .logout-btn {
-    font-size: 24px;
-    color: white;
-  }
+  /* Logout button container */
+.logout-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Logout button */
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  background-color: #115741;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Logout button icon */
+.logout-icon {
+  font-size: 20px;
+}
+
+/* Hover effect */
+.logout-btn:hover {
+  background-color: #1b8e73;
+}
+
+/* Scrolled state */
+.logout-btn.scrolled {
+  background-color: #115741;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
   
   
   
@@ -176,9 +196,10 @@
   
   .search-bar button,
   .pdf-btn,
+  .payment-details-btn,
   .add-booking-btn {
     padding: 8px 12px;
-    background-color: #1f852b;
+    background-color: #16561d;
     color: white;
     border: none;
     border-radius: 6px;

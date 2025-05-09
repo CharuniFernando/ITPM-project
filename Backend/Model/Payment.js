@@ -20,10 +20,6 @@ const PaymentSchema = new Schema({
     type: String,
     required: true
   },
-  transactionId: {
-    type: String,
-    required: true
-  },
   createdAt: {
     type: Date,
     default: Date.now

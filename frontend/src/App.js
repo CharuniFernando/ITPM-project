@@ -12,6 +12,7 @@ import AllInquires from "./Components/Client Management/AllInquires/AllInquires"
 import ClientManagerLogin from "./Components/Client Management/Login/Login";
 import AddBooking from "./Components/Booking Management/AddBooking/AddBooking";
 import AllBookings from "./Components/Booking Management/AllBookings/AllBookings";
+import AllPayment from "./Components/Booking Management/AllBookings/AllPayment";
 import BookingManagerLogin from "./Components/Booking Management/Login/Login";
 import AddOperations from "./Components/Operation Management/AddOperation/AddOperation";
 import Operations from "./Components/Operation Management/View Operation/Operation";
@@ -25,6 +26,7 @@ import Bookings from "./Components/Operation Management/Bookings/Bookings";
 import About from "./Components/Home/UserHome/About";
 import Booking from "./Components/Home/UserHome/Booking";
 import Mybooking from "./Components/Home/UserHome/Mybooking";
+import MyPayment from "./Components/Home/UserHome/MyPayment";
 import MyBookingDash from "./Components/Home/UserHome/MyBookingDash";
 import AddBookingForm from "./Components/Home/UserHome/AddbookingForm";
 import UpdateBookingForm from "./Components/Home/UserHome/UpdateBookingForm";
@@ -50,6 +52,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/my-booking" element={<Mybooking />} />
+          <Route path="/my-payment/:bookingId" element={<MyPayment />} />
           <Route path="/my-bookingdash" element={<MyBookingDash />} />
           <Route path="/add-bookingform" element={<AddBookingForm />} />
           <Route path="/update-bookingform/:employeeId" element={<UpdateBookingForm />} />
@@ -74,6 +77,7 @@ function App() {
           {/*Booking Managemnet System*/}
           <Route path="/add-booking" element={<AddBooking />} />
           <Route path="/bookingdash" element={<AllBookings />} />
+          <Route path="/payment-details" element={<AllPayment />} />
           <Route path="/bookingmanagerlogin" element={<BookingManagerLogin />}/>
           <Route path="/update-booking/:employeeId" element={<UpdateBooking />} />
           {/*Operation Managemnet System*/}

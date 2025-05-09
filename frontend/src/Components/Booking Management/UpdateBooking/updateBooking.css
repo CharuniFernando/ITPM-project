@@ -32,12 +32,12 @@
     font-size: 1rem;
     border-radius: 8px;
     border: 1px solid #ddd;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 5px rgba(89, 89, 97, 0.15);
     transition: border-color 0.3s;
 }
 
 .update-booking-form input:focus {
-    border-color: #115b28;
+    border-color: #404950;
     outline: none;
 }
 

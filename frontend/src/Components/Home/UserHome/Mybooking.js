@@ -51,6 +51,15 @@ const MyBooking = () => {
     navigate(`/update-bookingform/${booking._id}`, { state: { booking } });
   };
 
+  const handlePayNow = (booking) => {
+    navigate(`/my-payment/${booking._id}`, { 
+      state: { 
+        booking,
+        clientDetails: bookings[0]?.employeeDetails || {} 
+      } 
+    });
+  };
+
   useEffect(() => {
     if (gmail) {
       fetchBookings();
@@ -74,7 +83,7 @@ const MyBooking = () => {
     >
       <div
         style={{
-          maxWidth: '1300px',
+          maxWidth: '1400px',
           width: '100%',
           backgroundColor: 'rgba(255, 255, 255, 0.85)',
           borderRadius: '12px',
@@ -104,13 +113,12 @@ const MyBooking = () => {
               color: '#fff',
               fontFamily: '"Inter", "DM Sans", Arial, sans-serif',
               padding: '10px',
-              WebkitBackgroundClip: 'text', // For gradient text effect
-              WebkitTextFillColor: 'transparent', // Makes text transparent to show gradient
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
             }}
           >
             Welcome {bookings[0]?.employeeDetails?.name || 'Guest'}
           </h1>
-          {/* Inline CSS for animation */}
           <style>
             {`
               @keyframes gradientAnimation {
@@ -536,6 +544,7 @@ const MyBooking = () => {
                         onClick={() => handleDelete(booking._id)}
                         style={{
                           padding: '8px 16px',
+                          marginRight: '10px',
                           backgroundColor: '#781b19',
                           color: 'white',
                           border: 'none',
@@ -554,6 +563,30 @@ const MyBooking = () => {
                       >
                         Delete
                       </button>
+                      {booking.paymentStatus === 'Pending' && (
+                        <button
+                          onClick={() => handlePayNow(booking)}
+                          style={{
+                            padding: '8px 16px',
+                            backgroundColor: '#404950',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            fontWeight: '500',
+                            transition: 'background-color 0.3s',
+                          }}
+                          onMouseEnter={(e) =>
+                            (e.target.style.backgroundColor = '#404950')
+                          }
+                          onMouseLeave={(e) =>
+                            (e.target.style.backgroundColor = '#404950')
+                          }
+                        >
+                          Pay Now
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
