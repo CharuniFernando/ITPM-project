@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import SGS14 from '../img/SGS14.jpg';
-import "./updateBooking.css";
+import SGS14 from './img/SGS14.jpg';
 
 // Hourly rates
 const rates = {
@@ -12,7 +11,7 @@ const rates = {
   "Bodyguard": 200,
 };
 
-const UpdateBooking = () => {
+const UpdateBookingForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const booking = location.state?.booking || {};
@@ -34,8 +33,7 @@ const UpdateBooking = () => {
 
   useEffect(() => {
     if (!booking._id) {
-      alert("No booking selected.");
-      navigate("/bookingdash");
+      navigate("/my-booking", { state: { gmail: formData.gmail } });
     }
   }, [booking._id, navigate]);
 
@@ -83,7 +81,7 @@ const UpdateBooking = () => {
 
       await axios.put(`http://localhost:5000/api/bookings/${booking._id}`, updatedBooking);
       alert("Booking updated successfully.");
-      navigate("/bookingdash");
+      navigate("/my-booking", { state: { gmail: formData.gmail } });
     } catch (err) {
       console.error("Update Error:", err);
       alert("Failed to update booking. See console for details.");
@@ -274,4 +272,4 @@ const submitButtonStyle = {
   fontWeight: 'bold',
 };
 
-export default UpdateBooking;
+export default UpdateBookingForm;

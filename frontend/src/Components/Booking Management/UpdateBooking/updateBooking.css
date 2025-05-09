@@ -1,17 +1,19 @@
 /* Update Booking Styles */
 .update-booking-container {
-    width: 80%;
-    margin: 40px auto;
-    background-color: #133639;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
+        background-color: rgba(255, 255, 255, 0.3); /* Transparent white */
+        backdrop-filter: blur(10px); /* Apply blur effect */
+        -webkit-backdrop-filter: blur(10px); /* Safari support */
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 500px;
+        margin: 50px auto;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      }
 
 .admin_topic {
     text-align: center;
     font-size: 2.3rem;
-    color: #ffffff;
+    color: #252528;
     margin-bottom: 20px;
 }
 
@@ -43,18 +45,18 @@
     width: 200px;
     padding: 10px 0;
     font-size: 1.1rem;
-    background-color: #195f10;
+    background-color: #2a3943;
     color: #fff;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(23, 122, 30, 0.3);
+    box-shadow: 0 5px 15px #2f5f7e;
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .update-button:hover {
-    background-color: #083f17;
-    box-shadow: 0 8px 20px #083f17(0, 123, 255, 0.5);
+    background-color: #212931;
+    box-shadow: 0 8px 20px #212931;
 }
 
 .amount-to-pay {

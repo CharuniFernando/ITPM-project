@@ -53,8 +53,8 @@ function HomeNav() {
                 Inquiry
               </p>
               <p
-                className={`nav_item ${isActive("/addbooking")}`}
-                onClick={() => navigate("/addbooking")}
+                className={`nav_item ${isActive("/booking")}`}
+                onClick={() => navigate("/booking")}
               >
                 Bookings
               </p>
