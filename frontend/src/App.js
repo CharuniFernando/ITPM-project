@@ -26,6 +26,8 @@ import About from "./Components/Home/UserHome/About";
 import Booking from "./Components/Home/UserHome/Booking";
 import Mybooking from "./Components/Home/UserHome/Mybooking";
 import MyBookingDash from "./Components/Home/UserHome/MyBookingDash";
+import AddBookingForm from "./Components/Home/UserHome/AddbookingForm";
+import UpdateBookingForm from "./Components/Home/UserHome/UpdateBookingForm";
 import LeveLogin from "./Components/LeaveManagement/Login/LeveLogin";
 import AddLeave from "./Components/LeaveManagement/Dash/AddLeave";
 import LeaveDash from "./Components/LeaveManagement/Dash/LeaveDash";
@@ -49,6 +51,8 @@ function App() {
           <Route path="/booking" element={<Booking />} />
           <Route path="/my-booking" element={<Mybooking />} />
           <Route path="/my-bookingdash" element={<MyBookingDash />} />
+          <Route path="/add-bookingform" element={<AddBookingForm />} />
+          <Route path="/update-bookingform/:employeeId" element={<UpdateBookingForm />} />
           {/*User Managemnet System*/}
           <Route path="/user/adduser" element={<AddUser />} />
           <Route path="/useredetails" element={<UserDetails />} />

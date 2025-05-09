@@ -24,7 +24,7 @@ const Booking = () => {
   };
 
   const handleAddBooking = () => {
-    navigate('/add-booking');
+    navigate('/add-bookingform');
   };
 
   // Simulate image slider with alternating display
@@ -70,6 +70,20 @@ const Booking = () => {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#f3f4f6' }}>
       <Header />
 
+      {/* CSS for Keyframe Animation */}
+      <style>
+        {`
+          @keyframes animateBackground {
+            0% {
+              background-position: 0% 50%;
+            }
+            100% {
+              background-position: 100% 50%;
+            }
+          }
+        `}
+      </style>
+
       {/* Background Image Section with Description, Buttons, and Navigation Dots */}
       <div style={{ position: 'relative', width: '100%', height: '700px', overflow: 'hidden', backgroundColor: '#000000' }}>
         {images.map((src, index) => (
@@ -101,10 +115,25 @@ const Booking = () => {
             zIndex: 2
           }}
         >
-          <h2 style={{ fontSize: '24px', fontWeight: 'bold',  color: '#f5f5f5', marginBottom: '2px' }}>
-          Welcome to Our Security Service System
+          <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#f5f5f5', marginBottom: '2px' }}>
+            Welcome to Our Security Service System
           </h2>
-          <h1 style={{ fontSize: '72px', fontWeight: '900', lineHeight: '1.1', marginBottom: '10px' }}>
+          <h1
+            style={{
+              fontSize: '72px',
+              fontWeight: '900',
+              lineHeight: '1.1',
+              marginBottom: '10px',
+              color: 'transparent',
+              backgroundImage: 'linear-gradient(90deg,rgb(255, 255, 255),rgb(187, 155, 222), #B3E3E1,rgb(172, 146, 209),rgb(161, 213, 234))',
+              backgroundSize: '200%',
+              backgroundPosition: '0 50%',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              animation: 'animateBackground 5s infinite alternate linear',
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)',
+            }}
+          >
             Security.<br />Simplified.
           </h1>
           <p style={{ fontSize: '18px', maxWidth: '500px', marginBottom: '30px', color: '#d1d5db' }}>
@@ -192,7 +221,7 @@ const Booking = () => {
         <h1 style={{ fontSize: '40px', color: '#133639', marginBottom: '24px', textAlign: 'center' }}>
           Our Booking Facilities
         </h1>
-        <p style={{ fontSize: '18px', color: '#4a5568', textAlign: 'center', maxWidth: '800px', marginBottom: '32px' }}>
+        <p style={{ fontSize: '18px', color: '4a5568', textAlign: 'center', maxWidth: '800px', marginBottom: '32px' }}>
           Our Security Guard Service System is designed to streamline and enhance the management of security operations. From scheduling and deployment to real-time monitoring and reporting, the system supports seamless coordination of Security Guards, Female Security Guards, VVIP Protection, and Bodyguard Services. With user-friendly interfaces, automated workflows, and secure data handling, it ensures efficient operations and complete peace of mind—every step of the way.
         </p>
       </div>

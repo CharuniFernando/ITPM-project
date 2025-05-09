@@ -44,9 +44,27 @@ const MyBookingDash = () => {
         fontFamily: 'Arial, sans-serif',
       }}
     >
+      <style>
+        {`
+          @keyframes fadeSlideIn {
+            from {
+              opacity: 0;
+              transform: translateY(-20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          .animated-title {
+            animation: fadeSlideIn 1.2s ease-out;
+          }
+        `}
+      </style>
       <div
         style={{
-            maxWidth: '400px',
+          maxWidth: '400px',
           width: '100%',
           padding: '24px',
           backgroundColor: 'rgba(255, 255, 255, 0.5)', // Semi-transparent white shade
@@ -55,11 +73,19 @@ const MyBookingDash = () => {
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}
       >
-        <h1 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '24px', textAlign: 'center' }}>
-        Access Your Booking
+        <h1
+          className="animated-title"
+          style={{
+            fontSize: '1.8rem',
+            fontWeight: 'bold',
+            marginBottom: '24px',
+            textAlign: 'center',
+          }}
+        >
+          Access Your Booking
         </h1>
-        <h2 style={{ fontSize: '0.7rem',color:'rgba(19, 16, 16, 0.75)', marginBottom: '24px', textAlign: 'center' }}>
-        Quickly view your reservation by logging in with your Gmail and password. Make sure your details are correct to ensure a smooth check-in experience.
+        <h2 style={{ fontSize: '0.7rem', color: 'rgba(19, 16, 16, 0.75)', marginBottom: '24px', textAlign: 'center' }}>
+          Quickly view your reservation by logging in with your Gmail and password. Make sure your details are correct to ensure a smooth check-in experience.
         </h2>
         <div style={{ padding: '16px' }}>
           <div style={{ display: 'grid', gap: '16px' }}>

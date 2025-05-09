@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import SGS13 from "../img/SGS13.jpg"; // Adjust path if image is in a different directory
+import SGS13 from '../img/SGS13.jpg';
 import "./addBooking.css";
 
-// Hourly rates
 const rates = {
   "Security Guard": 100,
   "Female Security Guard": 150,
@@ -12,7 +11,7 @@ const rates = {
   "Bodyguard": 200,
 };
 
-const AddBookingForm = () => {
+const AddBooking = () => {
   const [formData, setFormData] = useState({
     gmail: "",
     guardType: "Security Guard",
@@ -26,22 +25,32 @@ const AddBookingForm = () => {
   const [amount, setAmount] = useState(0);
   const navigate = useNavigate();
 
-  const calculateAmount = () => {
+  // Recalculate amount whenever form data changes
+  useEffect(() => {
     const { guardType, startDate, endDate, startTime, endTime, noOfGuard } = formData;
-    const start = new Date(`${startDate}T${startTime}`);
-    const end = new Date(`${endDate}T${endTime}`);
-    const hours = Math.max((end - start) / (1000 * 60 * 60), 0);
-    return hours * rates[guardType] * noOfGuard;
-  };
+
+    if (startDate && endDate && startTime && endTime && noOfGuard > 0) {
+      const start = new Date(`${startDate}T${startTime}`);
+      const end = new Date(`${endDate}T${endTime}`);
+
+      if (end > start) {
+        const hours = (end - start) / (1000 * 60 * 60); // exact hours
+        const total = hours * rates[guardType] * noOfGuard;
+        setAmount(Math.round(total));
+      } else {
+        setAmount(0);
+      }
+    } else {
+      setAmount(0);
+    }
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-
-    // Recalculate amount on relevant field change
-    if (name === "guardType" || name === "noOfGuard" || name === "startDate" || name === "endDate" || name === "startTime" || name === "endTime") {
-      setAmount(calculateAmount());
-    }
+    setFormData(prev => ({
+      ...prev,
+      [name]: name === "noOfGuard" ? parseInt(value, 10) : value
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -58,62 +67,154 @@ const AddBookingForm = () => {
 
   return (
     <div
-      className="page-background"
       style={{
+        minHeight: '100vh',
         backgroundImage: `url(${SGS13})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        minHeight: "100vh",
-        position: "relative",
-        padding: "20px",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'Arial, sans-serif',
       }}
     >
       <div
-        className="overlay"
         style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 1,
+          maxWidth: '550px',
+          width: '100%',
+          padding: '24px',
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          borderRadius: '8px',
+          border: '1px solid #ddd',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}
-      />
-      <div className="booking-form-container">
-        <h2>Create New Booking</h2>
-        <form onSubmit={handleSubmit}>
-          <label>Gmail:</label>
-          <input type="email" name="gmail" value={formData.gmail} onChange={handleChange} required />
+      >
+        <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '24px', textAlign: 'center' }}>
+          Create New Booking
+        </h2>
+        <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '16px' }}>
+          <div>
+            <label style={{ fontWeight: 'bold' }}>Gmail:</label>
+            <input
+              type="email"
+              name="gmail"
+              value={formData.gmail}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+          </div>
 
-          <label>Guard Type:</label>
-          <select name="guardType" value={formData.guardType} onChange={handleChange} required>
-            {Object.keys(rates).map((type) => (
-              <option key={type} value={type}>{type}</option>
-            ))}
-          </select>
+          <div>
+            <label style={{ fontWeight: 'bold' }}>Guard Type:</label>
+            <select
+              name="guardType"
+              value={formData.guardType}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            >
+              {Object.keys(rates).map((type) => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+          </div>
 
-          <label>Number of Guards:</label>
-          <input type="number" name="noOfGuard" value={formData.noOfGuard} min="1" onChange={handleChange} required />
+          <div>
+            <label style={{ fontWeight: 'bold' }}>Number of Guards:</label>
+            <input
+              type="number"
+              name="noOfGuard"
+              value={formData.noOfGuard}
+              min="1"
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+          </div>
 
-          <label>Start Date:</label>
-          <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} required />
+          <div>
+            <label style={{ fontWeight: 'bold' }}>Start Date:</label>
+            <input
+              type="date"
+              name="startDate"
+              value={formData.startDate}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+          </div>
 
-          <label>Start Time:</label>
-          <input type="time" name="startTime" value={formData.startTime} onChange={handleChange} required />
+          <div>
+            <label style={{ fontWeight: 'bold' }}>Start Time:</label>
+            <input
+              type="time"
+              name="startTime"
+              value={formData.startTime}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+          </div>
 
-          <label>End Date:</label>
-          <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} required />
+          <div>
+            <label style={{ fontWeight: 'bold' }}>End Date:</label>
+            <input
+              type="date"
+              name="endDate"
+              value={formData.endDate}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+          </div>
 
-          <label>End Time:</label>
-          <input type="time" name="endTime" value={formData.endTime} onChange={handleChange} required />
+          <div>
+            <label style={{ fontWeight: 'bold' }}>End Time:</label>
+            <input
+              type="time"
+              name="endTime"
+              value={formData.endTime}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+          </div>
 
-          <button type="submit" className="sub">Submit</button>
-          <p>Amount to Pay: Rs.{amount}</p>
+          <button
+            type="submit"
+            className="sub"
+            style={submitButtonStyle}
+          >
+            Submit
+          </button>
+          <p style={{ margin: '8px 0', fontSize: '1rem', textAlign: 'center' }}>
+            Amount to Pay: Rs.{amount}
+          </p>
         </form>
       </div>
     </div>
   );
 };
 
-export default AddBookingForm;
+const inputStyle = {
+  width: '100%',
+  padding: '8px',
+  border: '1px solid #ddd',
+  borderRadius: '4px',
+  fontFamily: 'Arial, sans-serif',
+  fontSize: '1rem',
+};
+
+const submitButtonStyle = {
+  padding: '10px 16px',
+  backgroundColor: '#212931',
+  color: 'white',
+  border: 'none',
+  borderRadius: '10px',
+  cursor: 'pointer',
+  fontSize: '1rem',
+  fontWeight: 'bold',
+};
+
+export default AddBooking;

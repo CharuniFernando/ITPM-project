@@ -50,7 +50,7 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    box-shadow: 0 5px 15px #2a3943;
+    box-shadow: 0 5px 15px #2f5f7e;
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
